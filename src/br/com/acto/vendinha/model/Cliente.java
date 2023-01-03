@@ -96,4 +96,12 @@ public class Cliente extends BaseModel {
     public int hashCode() {
         return Objects.hash(id, nome, email, cpf, telefone, itens);
     }
+
+    @Override
+    public String toString() {
+        return "Cliente{" +
+                "nome='" + nome + '\'' +
+                ", cpf=" + cpf +
+                '}';
+    }
 }

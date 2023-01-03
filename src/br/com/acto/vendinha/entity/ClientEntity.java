@@ -22,4 +22,5 @@ public class ClientEntity extends GenericEntity<Cliente>{
         Clientes.add(obj);
     }
 
+
 }

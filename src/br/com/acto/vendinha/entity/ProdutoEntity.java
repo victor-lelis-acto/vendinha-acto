@@ -8,6 +8,11 @@ import java.util.List;
 public class ProdutoEntity extends GenericEntity<Produto>{
 
     public List<Produto> Produtos;
+
+    public ProdutoEntity() {
+        Produtos = new ArrayList<>();
+    }
+
     @Override
     public List<Produto> buscarTodos() {
         return Produtos;
@@ -27,4 +32,11 @@ public class ProdutoEntity extends GenericEntity<Produto>{
 //    public void remover(Produto obj) {
 //        super.remover(obj);
 //    }
+
+    @Override
+    public String toString() {
+        return "ProdutoEntity{" +
+                "Produtos=" + Produtos +
+                '}';
+    }
 }

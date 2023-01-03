@@ -1,7 +1,5 @@
 package br.com.acto.vendinha.model;
 
-import com.azul.crs.com.fasterxml.jackson.databind.ser.Serializers;
-
 import java.math.BigInteger;
 
 public class Produto extends BaseModel{
