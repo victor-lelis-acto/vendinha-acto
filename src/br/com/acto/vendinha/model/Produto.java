@@ -4,24 +4,40 @@ import java.math.BigInteger;
 
 public class Produto extends BaseModel{
 
-    private String Nome;
-    private BigInteger NCM;
+    private String nome;
+    private BigInteger ncm;
 
-    public Produto(String nome, BigInteger NCM) {
-        this.Nome = nome;
-        this.NCM = NCM;
+    public Produto(String nome, BigInteger ncm) {
+        this.nome = nome;
+        this.ncm = ncm;
     }
 
-    public Produto(String nome, BigInteger NCM, Long id) {
+    public Produto(Long id,String nome, BigInteger ncm) {
         super.setId(id);
-        this.Nome = nome;
-        this.NCM = NCM;
+        this.nome = nome;
+        this.ncm = ncm;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public BigInteger getNcm() {
+        return ncm;
+    }
+
+    public void setNcm(BigInteger ncm) {
+        this.ncm = ncm;
     }
 
     @Override
     public String toString() {
         return "Produto{" +
-                "Nome='" + Nome + '\'' +
+                "Nome='" + nome + '\'' +
                 '}';
     }
 }

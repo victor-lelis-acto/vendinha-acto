@@ -6,21 +6,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ClientEntity extends GenericEntity<Cliente>{
-    public List<Cliente> Clientes;
+    public List<Cliente> clientes;
 
     public ClientEntity(){
-        Clientes = new ArrayList<>();
+        clientes = new ArrayList<>();
     }
 
     @Override
     public List<Cliente> buscarTodos() {
-        return Clientes;
+        return clientes;
     }
 
     @Override
     public void cadastrar(Cliente obj) {
-        Clientes.add(obj);
+        clientes.add(obj);
     }
 
+    public List<Cliente> getClientes() {
+        return clientes;
+    }
 
+    public void setClientes(List<Cliente> clientes) {
+        this.clientes = clientes;
+    }
 }

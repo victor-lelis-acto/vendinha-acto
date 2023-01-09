@@ -7,36 +7,36 @@ import java.util.List;
 
 public class ProdutoEntity extends GenericEntity<Produto>{
 
-    public List<Produto> Produtos;
+    public List<Produto> produtos;
 
     public ProdutoEntity() {
-        Produtos = new ArrayList<>();
+        produtos = new ArrayList<>();
     }
 
     @Override
     public List<Produto> buscarTodos() {
-        return Produtos;
+        return produtos;
     }
 
     @Override
     public void cadastrar(Produto obj) {
-       Produtos.add(obj);
+       produtos.add(obj);
     }
 
-//    @Override
-//    public void atualizar(Produto obj) {
-//        super.atualizar(obj);
-//    }
-//
-//    @Override
-//    public void remover(Produto obj) {
-//        super.remover(obj);
-//    }
+    @Override
+    public void atualizar(Produto obj) {
+        super.atualizar(obj);
+    }
+
+    @Override
+    public void remover(Produto obj) {
+        super.remover(obj);
+    }
 
     @Override
     public String toString() {
         return "ProdutoEntity{" +
-                "Produtos=" + Produtos +
+                "Produtos=" + produtos +
                 '}';
     }
 }
