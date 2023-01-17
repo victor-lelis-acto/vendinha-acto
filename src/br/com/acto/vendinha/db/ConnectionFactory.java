@@ -1,6 +1,9 @@
 package br.com.acto.vendinha.db;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+
 public interface ConnectionFactory {
 
-    void conectarDB(); // método abstrato
+    Connection conectarDB() throws SQLException, ClassNotFoundException; // método abstrato
 }
