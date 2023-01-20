@@ -5,7 +5,6 @@ import java.util.Objects;
 public class Pessoa extends BaseModel {
 
     private String nome;
-    private Integer idade;
     private String endereco;
     private String contato;
 
@@ -17,13 +16,6 @@ public class Pessoa extends BaseModel {
         this.nome = nome;
     }
 
-    public Integer getIdade() {
-        return idade;
-    }
-
-    public void setIdade(Integer idade) {
-        this.idade = idade;
-    }
 
     public String getEndereco() {
         return endereco;
@@ -46,19 +38,18 @@ public class Pessoa extends BaseModel {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Pessoa pessoa = (Pessoa) o;
-        return Objects.equals(nome, pessoa.nome) && Objects.equals(idade, pessoa.idade) && Objects.equals(endereco, pessoa.endereco) && Objects.equals(contato, pessoa.contato);
+        return Objects.equals(nome, pessoa.nome) && Objects.equals(endereco, pessoa.endereco) && Objects.equals(contato, pessoa.contato);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(nome, idade, endereco, contato);
+        return Objects.hash(nome,  endereco, contato);
     }
 
     @Override
     public String toString() {
         return "Pessoa{" +
                 "nome='" + nome + '\'' +
-                ", idade=" + idade +
                 ", endereco='" + endereco + '\'' +
                 ", contato='" + contato + '\'' +
                 '}';

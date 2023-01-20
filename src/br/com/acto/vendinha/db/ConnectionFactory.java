@@ -6,4 +6,5 @@ import java.sql.SQLException;
 public interface ConnectionFactory {
 
     Connection conectarDB() throws SQLException, ClassNotFoundException; // método abstrato
+    Connection getConexao();
 }

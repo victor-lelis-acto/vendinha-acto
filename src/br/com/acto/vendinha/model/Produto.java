@@ -1,43 +1,78 @@
 package br.com.acto.vendinha.model;
 
 import java.math.BigInteger;
+import java.util.Date;
+import java.util.Objects;
 
 public class Produto extends BaseModel{
+    private String descricao;
+    private Double valor;
+    private String marca;
+    private String modelo;
+    private Date vencimento;
 
-    private String nome;
-    private BigInteger ncm;
-
-    public Produto(String nome, BigInteger ncm) {
-        this.nome = nome;
-        this.ncm = ncm;
+    public String getDescricao() {
+        return descricao;
     }
 
-    public Produto(Long id,String nome, BigInteger ncm) {
-        super.setId(id);
-        this.nome = nome;
-        this.ncm = ncm;
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
-    public String getNome() {
-        return nome;
+    public Double getValor() {
+        return valor;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setValor(Double valor) {
+        this.valor = valor;
     }
 
-    public BigInteger getNcm() {
-        return ncm;
+    public String getMarca() {
+        return marca;
     }
 
-    public void setNcm(BigInteger ncm) {
-        this.ncm = ncm;
+    public void setMarca(String marca) {
+        this.marca = marca;
+    }
+
+    public String getModelo() {
+        return modelo;
+    }
+
+    public void setModelo(String modelo) {
+        this.modelo = modelo;
+    }
+
+    public Date getVencimento() {
+        return vencimento;
+    }
+
+    public void setVencimento(Date vencimento) {
+        this.vencimento = vencimento;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Produto produto = (Produto) o;
+        return Objects.equals(descricao, produto.descricao) && Objects.equals(valor, produto.valor) && Objects.equals(marca, produto.marca) && Objects.equals(modelo, produto.modelo) && Objects.equals(vencimento, produto.vencimento);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), descricao, valor, marca, modelo, vencimento);
     }
 
     @Override
     public String toString() {
         return "Produto{" +
-                "Nome='" + nome + '\'' +
+                "descricao='" + descricao + '\'' +
+                ", valor=" + valor +
+                ", marca='" + marca + '\'' +
+                ", modelo='" + modelo + '\'' +
+                ", vencimento=" + vencimento +
                 '}';
     }
 }

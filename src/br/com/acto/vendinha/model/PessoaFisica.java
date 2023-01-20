@@ -4,6 +4,7 @@ import java.util.Objects;
 
 public class PessoaFisica extends Pessoa{
 
+    private Integer idade;
     private String cpf;
     private String rg;
     private String sexo;
@@ -30,6 +31,14 @@ public class PessoaFisica extends Pessoa{
 
     public void setSexo(String sexo) {
         this.sexo = sexo;
+    }
+
+    public Integer getIdade() {
+        return idade;
+    }
+
+    public void setIdade(Integer idade) {
+        this.idade = idade;
     }
 
     @Override
