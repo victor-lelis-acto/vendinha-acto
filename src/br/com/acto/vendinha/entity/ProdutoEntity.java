@@ -1,42 +1,103 @@
 package br.com.acto.vendinha.entity;
 
+import br.com.acto.vendinha.db.ConnectionFactory;
+import br.com.acto.vendinha.db.MSSqlServerConnection;
 import br.com.acto.vendinha.model.Produto;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-public class ProdutoEntity extends GenericEntity<Produto>{
+public class ProdutoEntity{
 
-    public List<Produto> produtos;
+    private Connection connection;
 
-    public ProdutoEntity() {
-        produtos = new ArrayList<>();
+    private Connection getConexao() {
+        if(connection == null) {
+            ConnectionFactory connectionFactory = new MSSqlServerConnection();
+            connection = connectionFactory.getConexao();
+        }
+        return connection;
     }
 
-    @Override
     public List<Produto> buscarTodos() {
-        return produtos;
+        List<Produto> resultado = new ArrayList<Produto>(); // lista vazia para o resultado
+        try {
+            getConexao();
+            String sql = "SELECT * FROM produto";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                Produto produto = new Produto();
+                produto.setId(resultSet.getLong("id"));
+                produto.setDescricao(resultSet.getString("descricao"));
+                produto.setValor(resultSet.getDouble("valor"));
+                produto.setMarca(resultSet.getString("marca"));
+                produto.setModelo(resultSet.getString("modelo"));
+                produto.setVencimento(resultSet.getDate("vencimento"));
+                resultado.add(produto);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return resultado;
     }
 
-    @Override
-    public void cadastrar(Produto obj) {
-       produtos.add(obj);
+    public void inserirProduto(String descricao, Double valor, String marca,
+                               String modelo, Date vencimento) throws SQLException {
+
+        String insertQuery = "INSERT INTO produto (descricao, valor, marca," +
+                "modelo, vencimento) VALUES (?, ?, ?, ?, ?);";
+
+        getConexao();
+        PreparedStatement statement = connection.prepareStatement(insertQuery);
+        statement.setString(1, descricao);
+        statement.setDouble(2, valor);
+        statement.setString(3, marca);
+        statement.setString(4, modelo);
+        statement.setDate(5, (java.sql.Date) vencimento);
+
+        int linhasAfetadas = 0;
+        try{
+            linhasAfetadas = statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        finally {
+            System.out.println(linhasAfetadas + " linhas afetadas");
+        }
+
     }
 
-    @Override
-    public void atualizar(Produto obj) {
-        super.atualizar(obj);
-    }
+    public void inserirProduto(Produto produto) throws SQLException {
 
-    @Override
-    public void remover(Produto obj) {
-        super.remover(obj);
-    }
+        String insertQuery = "INSERT INTO produto (descricao, valor, marca," +
+                "modelo, vencimento) VALUES (?, ?, ?, ?, ?);";
 
-    @Override
-    public String toString() {
-        return "ProdutoEntity{" +
-                "Produtos=" + produtos +
-                '}';
+        getConexao();
+        PreparedStatement statement = connection.prepareStatement(insertQuery);
+        statement.setString(1, produto.getDescricao());
+        statement.setDouble(2, produto.getValor());
+        statement.setString(3, produto.getMarca());
+        statement.setString(4, produto.getModelo());
+        statement.setDate(5, (java.sql.Date) produto.getVencimento());
+
+        int linhasAfetadas = 0;
+        try{
+            linhasAfetadas = statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        finally {
+            System.out.println(linhasAfetadas + " linhas afetadas");
+        }
+
     }
 }

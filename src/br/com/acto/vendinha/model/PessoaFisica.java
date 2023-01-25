@@ -9,6 +9,11 @@ public class PessoaFisica extends Pessoa{
     private String rg;
     private String sexo;
 
+    public PessoaFisica() {
+        ;
+    }
+
+
     public String getCpf() {
         return cpf;
     }
@@ -39,6 +44,16 @@ public class PessoaFisica extends Pessoa{
 
     public void setIdade(Integer idade) {
         this.idade = idade;
+    }
+
+    public PessoaFisica(String nome,Integer idade,String contato, String endereco, String cpf, String rg, String sexo) {
+        super.setNome(nome);
+        super.setEndereco(endereco);
+        super.setContato(contato);
+        this.idade = idade;
+        this.cpf = cpf;
+        this.rg = rg;
+        this.sexo = sexo;
     }
 
     @Override
