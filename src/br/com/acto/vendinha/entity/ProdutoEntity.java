@@ -24,10 +24,14 @@ public class ProdutoEntity{
         return connection;
     }
 
+    public ProdutoEntity() {
+        getConexao();
+    }
+
     public List<Produto> buscarTodos() {
         List<Produto> resultado = new ArrayList<Produto>(); // lista vazia para o resultado
         try {
-            getConexao();
+
             String sql = "SELECT * FROM produto";
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet resultSet = statement.executeQuery();
@@ -56,7 +60,7 @@ public class ProdutoEntity{
         String insertQuery = "INSERT INTO produto (descricao, valor, marca," +
                 "modelo, vencimento) VALUES (?, ?, ?, ?, ?);";
 
-        getConexao();
+
         PreparedStatement statement = connection.prepareStatement(insertQuery);
         statement.setString(1, descricao);
         statement.setDouble(2, valor);
@@ -71,7 +75,7 @@ public class ProdutoEntity{
             throw new RuntimeException(e);
         }
         finally {
-            System.out.println(linhasAfetadas + " linhas afetadas");
+            System.out.println(linhasAfetadas + " linhas inseridas");
         }
 
     }
@@ -81,7 +85,7 @@ public class ProdutoEntity{
         String insertQuery = "INSERT INTO produto (descricao, valor, marca," +
                 "modelo, vencimento) VALUES (?, ?, ?, ?, ?);";
 
-        getConexao();
+
         PreparedStatement statement = connection.prepareStatement(insertQuery);
         statement.setString(1, produto.getDescricao());
         statement.setDouble(2, produto.getValor());
@@ -96,7 +100,53 @@ public class ProdutoEntity{
             throw new RuntimeException(e);
         }
         finally {
-            System.out.println(linhasAfetadas + " linhas afetadas");
+            System.out.println(linhasAfetadas + " linhas inseridas");
+        }
+
+    }
+
+    public void atualizarProduto(Produto produto) throws SQLException {
+
+        String insertQuery = "UPDATE produto SET descricao=?, valor=?, marca=?," +
+                "modelo=?, vencimento=? WHERE id = ?;";
+
+
+        PreparedStatement statement = connection.prepareStatement(insertQuery);
+        statement.setString(1, produto.getDescricao());
+        statement.setDouble(2, produto.getValor());
+        statement.setString(3, produto.getMarca());
+        statement.setString(4, produto.getModelo());
+        statement.setDate(5, (java.sql.Date) produto.getVencimento());
+        statement.setLong(6, produto.getId());
+
+        int linhasAfetadas = 0;
+        try{
+            linhasAfetadas = statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        finally {
+            System.out.println(linhasAfetadas + " linhas atualizadas");
+        }
+
+    }
+
+    public void excluirProduto(Produto produto) throws SQLException {
+
+        String deletetQuery = "DELETE produto WHERE id = ?;";
+
+
+        PreparedStatement statement = connection.prepareStatement(deletetQuery);
+        statement.setLong(1, produto.getId());
+
+        int linhasAfetadas = 0;
+        try{
+            linhasAfetadas = statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        finally {
+            System.out.println(linhasAfetadas + " linhas deletadas");
         }
 
     }

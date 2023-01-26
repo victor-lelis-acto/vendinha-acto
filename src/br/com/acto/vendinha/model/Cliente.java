@@ -23,6 +23,14 @@ public class Cliente extends BaseModel {
         this.telefone = telefone;
     }
 
+    public Cliente(Long id, String nome, String email, Integer cpf, String telefone) {
+        this.id = id;
+        this.nome = nome;
+        this.email = email;
+        this.cpf = cpf;
+        this.telefone = telefone;
+    }
+
     public void imprimirNome() {
         System.out.println("Meu nome é: " + this.nome);
     }

@@ -2,7 +2,6 @@ package br.com.acto.vendinha.entity;
 
 import br.com.acto.vendinha.db.ConnectionFactory;
 import br.com.acto.vendinha.db.MSSqlServerConnection;
-import br.com.acto.vendinha.model.PessoaFisica;
 import br.com.acto.vendinha.model.PessoaJuridica;
 
 import java.sql.*;
@@ -13,6 +12,10 @@ public class PessoaJuridicaEntity{
 
 
     private Connection connection;
+
+    public PessoaJuridicaEntity() {
+        getConexao();
+    }
 
     private Connection getConexao() {
         if(connection == null) {
@@ -25,8 +28,7 @@ public class PessoaJuridicaEntity{
     public List<PessoaJuridica> buscarTodos() {
         List<PessoaJuridica> resultado = new ArrayList<>(); // lista vazia para o resultado
         try {
-            getConexao();
-            String sql = "SELECT * FROM pessoa_fisica";
+            String sql = "SELECT * FROM pessoa_juridica";
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet resultSet = statement.executeQuery();
 
@@ -36,8 +38,8 @@ public class PessoaJuridicaEntity{
                 pessoaJuridica.setNome(resultSet.getString("nome"));
                 pessoaJuridica.setEndereco(resultSet.getString("endereco"));
                 pessoaJuridica.setContato(resultSet.getString("contato"));
-                pessoaJuridica.setCnpj(resultSet.getString("cpf"));
-                pessoaJuridica.setRazaoSocial(resultSet.getString("rg"));
+                pessoaJuridica.setCnpj(resultSet.getString("cnpj"));
+                pessoaJuridica.setRazaoSocial(resultSet.getString("razaoSocial"));
                 resultado.add(pessoaJuridica);
             }
 
@@ -54,7 +56,6 @@ public class PessoaJuridicaEntity{
         String insertQuery = "INSERT INTO pessoa_juridica (nome, endereco," +
                 "contato, cnpj, razaoSocial) VALUES (?, ?, ?, ?, ?);";
 
-        getConexao();
         PreparedStatement statement = connection.prepareStatement(insertQuery);
         statement.setString(1, nome);
         statement.setString(2, endereco);
@@ -69,7 +70,7 @@ public class PessoaJuridicaEntity{
             throw new RuntimeException(e);
         }
         finally {
-            System.out.println(linhasAfetadas + " linhas afetadas");
+            System.out.println(linhasAfetadas + " linhas inseridas");
         }
 
 
@@ -81,7 +82,7 @@ public class PessoaJuridicaEntity{
         String insertQuery = "INSERT INTO pessoa_juridica (nome, endereco," +
                 "contato, cnpj, razaoSocial) VALUES (?, ?, ?, ?, ?);";
 
-        getConexao();
+
         PreparedStatement statement = connection.prepareStatement(insertQuery);
         statement.setString(1, pessoaJuridica.getNome());
         statement.setString(2, pessoaJuridica.getEndereco());
@@ -96,11 +97,53 @@ public class PessoaJuridicaEntity{
             throw new RuntimeException(e);
         }
         finally {
-            System.out.println(linhasAfetadas + " linhas afetadas");
+            System.out.println(linhasAfetadas + " linhas inseridas");
+        }
+    }
+
+    public void atualizarPessoaJuridica(PessoaJuridica pessoaJuridica) throws SQLException {
+        String updateQuery = "UPDATE pessoa_juridica SET nome=?, endereco=?," +
+        "contato=?, cnpj=?, razaoSocial=? WHERE id = ?;";
+
+
+        PreparedStatement statement = connection.prepareStatement(updateQuery);
+        statement.setString(1, pessoaJuridica.getNome());
+        statement.setString(2, pessoaJuridica.getEndereco());
+        statement.setString(3, pessoaJuridica.getContato());
+        statement.setString(4, pessoaJuridica.getCnpj());
+        statement.setString(5, pessoaJuridica.getRazaoSocial());
+        statement.setLong(6, pessoaJuridica.getId());
+
+        int linhasAfetadas = 0;
+
+        try {
+            linhasAfetadas = statement.executeUpdate();
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+        finally {
+            System.out.println(linhasAfetadas + " linhas atualizadas");
         }
 
+    }
 
+    public void excluirPessoaJuridica(PessoaJuridica pessoaJuridica) throws SQLException {
+        String deleteQuery = "DELETE pessoa_juridica where id = ?";
 
+        PreparedStatement statement = connection.prepareStatement(deleteQuery);
+
+        statement.setLong(1, pessoaJuridica.getId());
+
+        int linhasAfetadas = 0;
+
+        try {
+            linhasAfetadas = statement.executeUpdate();
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+        finally {
+            System.out.println(linhasAfetadas + " linhas deletadas");
+        }
     }
 
 }

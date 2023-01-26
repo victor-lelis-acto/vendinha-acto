@@ -11,6 +11,10 @@ public class Produto extends BaseModel{
     private String modelo;
     private Date vencimento;
 
+    public Produto(long l) {
+        super.setId(l);
+    }
+
     public String getDescricao() {
         return descricao;
     }
@@ -58,6 +62,26 @@ public class Produto extends BaseModel{
         if (!super.equals(o)) return false;
         Produto produto = (Produto) o;
         return Objects.equals(descricao, produto.descricao) && Objects.equals(valor, produto.valor) && Objects.equals(marca, produto.marca) && Objects.equals(modelo, produto.modelo) && Objects.equals(vencimento, produto.vencimento);
+    }
+
+    public Produto(String descricao, Double valor, String marca, String modelo, Date vencimento) {
+        this.descricao = descricao;
+        this.valor = valor;
+        this.marca = marca;
+        this.modelo = modelo;
+        this.vencimento = vencimento;
+    }
+
+    public Produto(Long id, String descricao, Double valor, String marca, String modelo, Date vencimento) {
+        super.setId(id);
+        this.descricao = descricao;
+        this.valor = valor;
+        this.marca = marca;
+        this.modelo = modelo;
+        this.vencimento = vencimento;
+    }
+
+    public Produto() {
     }
 
     @Override

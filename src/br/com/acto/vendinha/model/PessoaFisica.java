@@ -56,6 +56,23 @@ public class PessoaFisica extends Pessoa{
         this.sexo = sexo;
     }
 
+    public PessoaFisica(Long id, String nome,Integer idade,String contato, String endereco, String cpf, String rg, String sexo) {
+        super.setId(id);
+        super.setNome(nome);
+        super.setEndereco(endereco);
+        super.setContato(contato);
+        this.idade = idade;
+        this.cpf = cpf;
+        this.rg = rg;
+        this.sexo = sexo;
+    }
+
+    public PessoaFisica(Long id) {
+        super.setId(id);
+    }
+
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

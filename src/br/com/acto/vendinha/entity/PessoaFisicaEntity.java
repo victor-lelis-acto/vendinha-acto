@@ -5,6 +5,7 @@ import br.com.acto.vendinha.db.MSSqlServerConnection;
 import br.com.acto.vendinha.model.Cliente;
 import br.com.acto.vendinha.model.Pessoa;
 import br.com.acto.vendinha.model.PessoaFisica;
+import br.com.acto.vendinha.model.PessoaJuridica;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -25,10 +26,14 @@ public class PessoaFisicaEntity{
         return connection;
     }
 
+    public PessoaFisicaEntity() {
+        getConexao();
+    }
+
     public List<PessoaFisica> buscarTodos() {
         List<PessoaFisica> resultado = new ArrayList<>(); // lista vazia para o resultado
         try {
-            getConexao();
+
             String sql = "SELECT * FROM pessoa_fisica";
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet resultSet = statement.executeQuery();
@@ -59,7 +64,7 @@ public class PessoaFisicaEntity{
         String insertQuery = "INSERT INTO pessoa_fisica (nome, idade, endereco," +
                 "contato, cpf, rg, sexo) VALUES (?, ?, ?, ?, ?, ?, ?);";
 
-        getConexao();
+
         PreparedStatement statement = connection.prepareStatement(insertQuery);
         statement.setString(1, nome);
         statement.setInt(2, idade);
@@ -76,7 +81,7 @@ public class PessoaFisicaEntity{
             throw new RuntimeException(e);
         }
         finally {
-            System.out.println(linhasAfetadas + " linhas afetadas");
+            System.out.println(linhasAfetadas + " linhas inseridas");
         }
 
     }
@@ -86,7 +91,7 @@ public class PessoaFisicaEntity{
         String insertQuery = "INSERT INTO pessoa_fisica (nome, idade, endereco," +
                 "contato, cpf, rg, sexo) VALUES (?, ?, ?, ?, ?, ?, ?);";
 
-        getConexao();
+
         PreparedStatement statement = connection.prepareStatement(insertQuery);
         statement.setString(1, pessoaFisica.getNome());
         statement.setInt(2, pessoaFisica.getIdade());
@@ -103,9 +108,52 @@ public class PessoaFisicaEntity{
             throw new RuntimeException(e);
         }
         finally {
-            System.out.println(linhasAfetadas + " linhas afetadas");
+            System.out.println(linhasAfetadas + " linhas inseridas");
         }
 
+    }
+
+    public void atualizarPessoaFisica(PessoaFisica pessoaFisica) throws SQLException {
+        String atualizarQuery = "UPDATE pessoa_fisica SET nome=?, idade=?, endereco=?, contato=?, cpf=?, rg=?, sexo=? where id = ?;";
+
+
+        PreparedStatement statement = connection.prepareStatement(atualizarQuery);
+        statement.setString(1, pessoaFisica.getNome());
+        statement.setInt(   2, pessoaFisica.getIdade());
+        statement.setString(3, pessoaFisica.getEndereco());
+        statement.setString(4, pessoaFisica.getContato());
+        statement.setString(5, pessoaFisica.getCpf());
+        statement.setString(6, pessoaFisica.getRg());
+        statement.setString(7, pessoaFisica.getSexo());
+        statement.setLong(  8, pessoaFisica.getId());
+
+        int linhasAfetadas = 0;
+        try{
+            linhasAfetadas = statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        finally {
+            System.out.println(linhasAfetadas + " linhas atualizadas");
+        }
+    }
+
+    public void excluirPessoaFisica(PessoaFisica pessoaFisica) throws SQLException{
+        String excluirQuery = "DELETE pessoa_fisica where id=?;";
+
+
+        PreparedStatement statement = connection.prepareStatement(excluirQuery);
+        statement.setLong(1, pessoaFisica.getId());
+
+        int linhasAfetadas = 0;
+        try{
+            linhasAfetadas = statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        finally {
+            System.out.println(linhasAfetadas + " linhas deletadas");
+        }
     }
 
 }

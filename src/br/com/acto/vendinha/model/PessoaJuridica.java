@@ -23,6 +23,36 @@ public class PessoaJuridica extends Pessoa{
         this.razaoSocial = razaoSocial;
     }
 
+    public PessoaJuridica() {
+    }
+
+    public PessoaJuridica(Long id, String nome, String endereco, String contato,
+                          String cnpj, String razaoSocial) {
+        super.setId(id);
+        super.setNome(nome);
+        super.setEndereco(endereco);
+        super.setContato(contato);
+        this.cnpj = cnpj;
+        this.razaoSocial = razaoSocial;
+    }
+    public PessoaJuridica(String nome, String endereco, String contato,
+                          String cnpj, String razaoSocial) {
+        super.setNome(nome);
+        super.setEndereco(endereco);
+        super.setContato(contato);
+        this.cnpj = cnpj;
+        this.razaoSocial = razaoSocial;
+    }
+
+    public PessoaJuridica(String cnpj, String razaoSocial) {
+        this.cnpj = cnpj;
+        this.razaoSocial = razaoSocial;
+    }
+
+    public PessoaJuridica(Long id) {
+        super.setId(id);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

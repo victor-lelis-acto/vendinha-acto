@@ -24,10 +24,14 @@ public class ClienteEntity{
         return connection;
     }
 
+    public ClienteEntity() {
+        getConexao();
+    }
+
     public List<Cliente> buscarTodos() {
         List<Cliente> resultado = new ArrayList<Cliente>(); // lista vazia para o resultado
         try {
-            getConexao();
+
             String sql = "SELECT * FROM cliente";
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet resultSet = statement.executeQuery();
@@ -55,7 +59,7 @@ public class ClienteEntity{
         String insertQuery = "INSERT INTO cliente (nome, email, cpf," +
                 "telefone) VALUES (?, ?, ?, ?);";
 
-        getConexao();
+
         PreparedStatement statement = connection.prepareStatement(insertQuery);
         statement.setString(1, nome);
         statement.setString(2, email);
@@ -69,7 +73,7 @@ public class ClienteEntity{
             throw new RuntimeException(e);
         }
         finally {
-            System.out.println(linhasAfetadas + " linhas afetadas");
+            System.out.println(linhasAfetadas + " linhas inseridas");
         }
 
     }
@@ -79,7 +83,7 @@ public class ClienteEntity{
         String insertQuery = "INSERT INTO cliente(nome, email," +
                 "cpf, telefone) VALUES (?, ?, ?, ?);";
 
-        getConexao();
+
         PreparedStatement statement = connection.prepareStatement(insertQuery);
         statement.setString(1, cliente.getNome());
         statement.setString(2, cliente.getEmail());
@@ -93,7 +97,89 @@ public class ClienteEntity{
             throw new RuntimeException(e);
         }
         finally {
-            System.out.println(linhasAfetadas + " linhas afetadas");
+            System.out.println(linhasAfetadas + " linhas inseridas");
+        }
+
+    }
+
+    public void ExcluirCliente(Long id) throws SQLException {
+        String deleteQuery = "DELETE cliente where id = ?";
+
+        getConexao();
+        PreparedStatement statement = connection.prepareStatement(deleteQuery);
+        statement.setLong(1, id);
+        int linhasAfetadas = 0;
+        try{
+            linhasAfetadas = statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        finally {
+            System.out.println(linhasAfetadas + " linhas excluidas");
+        }
+    }
+
+    public void ExcluirCliente(Cliente cliente) throws SQLException {
+        String deleteQuery = "DELETE cliente where id = ?";
+
+
+        PreparedStatement statement = connection.prepareStatement(deleteQuery);
+        statement.setLong(1, cliente.getId());
+        int linhasAfetadas = 0;
+        try{
+            linhasAfetadas = statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        finally {
+            System.out.println(linhasAfetadas + " linhas excluidas");
+        }
+    }
+
+    public void atualizarCliente(String nome, String email,
+                                 Integer cpf, String telefone, Long id) throws SQLException {
+
+        String updateQuery = "UPDATE cliente\n SET nome = ?, email = ?, cpf = ?, telefone = ?\n where id = ?;";
+
+
+        PreparedStatement statement = connection.prepareStatement(updateQuery);
+        statement.setString(1, nome);
+        statement.setString(2, email);
+        statement.setInt(3, cpf);
+        statement.setString(4, telefone);
+        statement.setLong(5, id);
+
+        int linhasAfetadas = 0;
+        try{
+            linhasAfetadas = statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        finally {
+            System.out.println(linhasAfetadas + " linhas atualizadas");
+        }
+
+    }
+
+    public void atualizarCliente(Cliente cliente) throws SQLException {
+
+        String updateQuery = "UPDATE cliente\n SET nome = ?, email = ?, cpf = ?, telefone = ?\n where id = ?;";
+
+        PreparedStatement statement = connection.prepareStatement(updateQuery);
+        statement.setString(1, cliente.getNome());
+        statement.setString(2, cliente.getEmail());
+        statement.setInt(3, cliente.getCpf());
+        statement.setString(4, cliente.getTelefone());
+        statement.setLong(5, cliente.getId());
+
+        int linhasAfetadas = 0;
+        try{
+            linhasAfetadas = statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        finally {
+            System.out.println(linhasAfetadas + " linhas atualizadas");
         }
 
     }
